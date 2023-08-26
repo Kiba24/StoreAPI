@@ -17,7 +17,7 @@ namespace Core.Entities
         [MaxLength(255)]
         public string Name { get; set; }
         public double Price { get; set; }
-        public DateTime CreatedAT { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         [ForeignKey("Brands")]
         public int BrandId { get; set; }
