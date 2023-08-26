@@ -12,11 +12,21 @@ namespace Core.Entities
     public class Product
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         [Required]
         [MaxLength(255)]
         public string Name { get; set; }
-        public decimal Price { get; set; }
+        public double Price { get; set; }
         public DateTime CreatedAT { get; set; }
+
+        [ForeignKey("Brands")]
+        public int BrandId { get; set; }
+        public Brand Brand { get; set; }
+
+        [ForeignKey("Categories")]
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
+
+
     }
 }
