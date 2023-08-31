@@ -1,4 +1,8 @@
+using Core.Entities;
+using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Repositories;
+using Infrastructure.Unit_Of_Work;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +20,28 @@ builder.Services.AddDbContext<StoreContext>(options =>
 });
 
 builder.Services.AddScoped<DataSeed>();
+
+
+//Cors
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin();
+    });
+});
+
+#region Scopes
+
+/*builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();*/
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+#endregion
 
 
 
@@ -42,6 +68,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors();
 
 app.MapControllers();
 
