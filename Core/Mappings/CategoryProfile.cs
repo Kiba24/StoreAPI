@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Dtos.Brand
+namespace Core.Mappings
 {
-    public class AddBrandDto
+    public class CategoryProfile
     {
-        public string Name { get; set; }
     }
 }

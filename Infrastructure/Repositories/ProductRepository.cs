@@ -14,5 +14,7 @@ namespace Infrastructure.Repositories
         public ProductRepository(StoreContext context) : base(context)
         {
         }
+
+
     }
 }
