@@ -16,22 +16,11 @@ namespace Core.Mappings
         public ProductProfile()
         {
             CreateMap<BrandDto, Brand>().ReverseMap();
+            CreateMap<AddUpdateCategoryDto,CategoryDto>().ReverseMap();
             CreateMap<CategoryDto, Category>().ReverseMap();
-            CreateMap<AddProductDto, Product>()
-                .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.Brand))
-                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
-                .ForMember(dest => dest.Brand, opt => opt.Ignore())  // Ignore Brand navigation property
-                .ForMember(dest => dest.Category, opt => opt.Ignore())
-                .ReverseMap();
-                
-  
+            CreateMap<AddUpdateProductDto, Product>().ReverseMap();
+            CreateMap<ProductDto,Product>().ReverseMap();
 
-            CreateMap<ProductDto, Product>()
-                   .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.Brand))
-                   .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
-                                   .ForMember(dest => dest.Brand, opt => opt.Ignore())  // Ignore Brand navigation property
-                .ForMember(dest => dest.Category, opt => opt.Ignore())
-                   .ReverseMap();
 
 
 

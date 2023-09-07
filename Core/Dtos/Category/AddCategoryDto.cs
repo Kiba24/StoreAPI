@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Core.Dtos.Category
 {
-    public class AddCategoryDto
+    public class AddUpdateCategoryDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

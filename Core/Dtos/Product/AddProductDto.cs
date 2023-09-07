@@ -8,13 +8,14 @@ using System.Threading.Tasks;
 
 namespace Core.Dtos.Product
 {
-    public class AddProductDto
+    public class AddUpdateProductDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
         public DateTime CreatedAt { get; set; }
-        public BrandDto Brand { get; set; }
-        public CategoryDto Category { get; set; }
+        public int BrandId { get; set; }
+        public int CategoryId { get; set; }
 
 
     }
