@@ -9,10 +9,10 @@ namespace Core.Dtos
 {
     public class ApiResponse<T>
     {
-        bool Sucess { get; set; }
-        string Message { get; set; }
-        T Data { get; set; }
-        HttpStatusCode StatusCode { get; set; }
+        public bool Sucess { get; set; }
+        public string Message { get; set; }
+        public T Data { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
 
 
         public ApiResponse()

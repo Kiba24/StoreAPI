@@ -1,4 +1,5 @@
 using API.Extension;
+using AspNetCoreRateLimit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,10 +14,15 @@ builder.Services.AddSwaggerGen();
 //Initialize configuration
 StartupExtension.Initialize(builder.Services, builder.Configuration);
 
+//Rate limiting
+StartupExtension.ConfigureRateLimiting(builder.Services);
+
 var app = builder.Build();
 
 //Initialize dataseed
 StartupExtension.ConfigureSeed(app);
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -30,6 +36,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseCors();
+
+app.UseIpRateLimiting();
 
 app.MapControllers();
 

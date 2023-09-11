@@ -1,4 +1,5 @@
-﻿using Core.Interfaces;
+﻿using AspNetCoreRateLimit;
+using Core.Interfaces;
 using Core.Mappings;
 using Infrastructure.Data;
 using Infrastructure.Unit_Of_Work;
@@ -59,6 +60,32 @@ namespace API.Extension
                 // Call the data seeding method
                 await DataSeed.SeedAsyncTask(context, loggerFactory);
             }
+        }
+
+        //Limit quantity of request recieved from the same IP in a period of time
+        public static void ConfigureRateLimiting(this IServiceCollection services)
+        {
+            services.AddMemoryCache();
+            services.AddSingleton<IRateLimitConfiguration,RateLimitConfiguration>();
+            services.AddInMemoryRateLimiting();
+
+            services.Configure<IpRateLimitOptions>(options =>
+            {
+                options.EnableEndpointRateLimiting = true;
+                options.HttpStatusCode = 429; //Too many request
+                options.StackBlockedRequests = false;
+                options.RealIpHeader = "X-Real-Ip";
+
+                options.GeneralRules = new List<RateLimitRule>
+                {
+                    new RateLimitRule()
+                    {
+                        Endpoint ="*",
+                        Period = "10s",
+                        Limit = 10
+                    }
+                };s
+            });
         }
     }
 }
