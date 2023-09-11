@@ -16,7 +16,6 @@ namespace Core.Mappings
         public ProductProfile()
         {
             CreateMap<BrandDto, Brand>().ReverseMap();
-            CreateMap<AddUpdateCategoryDto,CategoryDto>().ReverseMap();
             CreateMap<CategoryDto, Category>().ReverseMap();
             CreateMap<AddUpdateProductDto, Product>().ReverseMap();
             CreateMap<ProductDto,Product>().ReverseMap();

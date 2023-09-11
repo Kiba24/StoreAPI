@@ -86,6 +86,19 @@ namespace Infrastructure.Data
                         }
                     }
                 }
+
+                if (!context.Roles.Any())
+                {
+                    List < Role > roles = new List<Role>()
+                    {
+                        new Role { Name = "Admin"},
+                        new Role { Name ="Manager"},
+                        new Role { Name ="Employee"}
+                    };
+
+                    await context.Roles.AddRangeAsync(roles);
+                    await context.SaveChangesAsync();
+                }
             }
 
 

@@ -84,7 +84,7 @@ namespace API.Extension
                         Period = "10s",
                         Limit = 10
                     }
-                };s
+                };
             });
         }
     }
