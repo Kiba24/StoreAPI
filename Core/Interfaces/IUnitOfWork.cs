@@ -11,7 +11,9 @@ namespace Core.Interfaces
         IBrandRepository BrandRepository { get; }
         IProductRepository ProductRepository { get; }
         ICategoryRepository CategoryRepository { get; }
+        IUserRepository UserRepository { get; }
 
+        IRoleRepository RoleRepository { get; }
         int Save();
 
     }

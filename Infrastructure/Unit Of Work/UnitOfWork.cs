@@ -16,6 +16,8 @@ namespace Infrastructure.Unit_Of_Work
         private IBrandRepository _brandRepository;
         private ICategoryRepository _categoryRepository;
         private IProductRepository _productRepository;
+        private IUserRepository _userRepository;
+        private IRoleRepository _roleRepository;
         #endregion
 
         public UnitOfWork(StoreContext context)
@@ -54,6 +56,27 @@ namespace Infrastructure.Unit_Of_Work
                 return _categoryRepository;
             }
         }
+
+
+        public IUserRepository UserRepository
+        {
+            get
+            {
+                if (_userRepository == null) _userRepository = new UserRepository(_context);
+                return _userRepository;
+            }
+        }
+
+
+        public IRoleRepository RoleRepository
+        {
+            get
+            {
+                if (_roleRepository == null) _roleRepository= new RoleRepository(_context);
+                return _roleRepository;
+            }
+        }
+
         public int Save()
         {
             return _context.SaveChanges();

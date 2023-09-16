@@ -5,6 +5,13 @@ using Infrastructure.Data;
 using Infrastructure.Unit_Of_Work;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Text;
+using API.Helpers;
+using API.Services;
+using Core.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
 namespace API.Extension
 {
@@ -14,6 +21,7 @@ namespace API.Extension
         {
             ConfigureDatabase(services, configuration);
             ConfigureCors(services);
+            ConfigureJWT(services,configuration);
 
             //Automapper
             services.AddAutoMapper(Assembly.GetEntryAssembly());
@@ -22,7 +30,8 @@ namespace API.Extension
 
             //Scoping unit of work
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+            services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         private static void ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
@@ -86,6 +95,30 @@ namespace API.Extension
                     }
                 };
             });
+        }
+
+        public static void ConfigureJWT(this IServiceCollection services, IConfiguration config)
+        {
+            services.Configure<JWT>(config.GetSection("JWT"));
+
+            services.AddAuthentication(opt =>
+                {
+                    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = config["JWT:Issuer"],
+                        ValidAudience = config["JWT:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWT:Key"]))
+                    };
+                });
         }
     }
 }
